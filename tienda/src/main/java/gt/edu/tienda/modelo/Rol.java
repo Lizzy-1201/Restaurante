@@ -1,11 +1,12 @@
 package gt.edu.tienda.modelo;
 
+import lombok.Data;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import lombok.Data;
 
 @Data
 @Entity
@@ -13,6 +14,7 @@ import lombok.Data;
 public class Rol {
 	
 	@Id
+	@GeneratedValue
 	@Column(name = "id_rol")
 	private int id;
 	

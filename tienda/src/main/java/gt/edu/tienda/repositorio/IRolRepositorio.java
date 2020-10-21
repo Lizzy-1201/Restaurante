@@ -6,6 +6,6 @@ import gt.edu.tienda.modelo.Rol;
 
 public interface IRolRepositorio extends CrudRepository<Rol, Integer>{
 	
-	Rol findRolById (int id);
+	//Rol findRolById (int id);
 
 }
