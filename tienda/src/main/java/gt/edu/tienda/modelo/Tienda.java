@@ -16,7 +16,7 @@ public class Tienda {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_tienda")
+	@Column(name = "idtienda")
 	private int id;
 	
 	@Column(name = "direccion", length = 50)
