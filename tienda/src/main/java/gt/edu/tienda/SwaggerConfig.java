@@ -18,7 +18,7 @@ public class SwaggerConfig {
                                     .select()
                                     .apis(
                                             RequestHandlerSelectors
-                                            .basePackage("com.openwebinars.net.rest.controller"))
+                                            .basePackage("gt.edu.tienda"))
                                     .paths(PathSelectors.any())
                                     .build();
                 }
