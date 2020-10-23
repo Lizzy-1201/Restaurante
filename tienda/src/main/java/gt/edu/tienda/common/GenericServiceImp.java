@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 public abstract class GenericServiceImp<T, ID extends Serializable> implements GenericServiceAPI<T, ID> {
 
 	@Override
-	public void save(T entity) {
-		getRepository().save(entity);
+	public T save(T entity) {
+		return getRepository().save(entity);
 	}
 	
 	@Override

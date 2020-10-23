@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface GenericServiceAPI<T, ID extends Serializable> {
 	
-	void save (T entity);
+	T save (T entity);
 	
 	void delete (ID id);
 	
