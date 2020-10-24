@@ -1,5 +1,7 @@
 package gt.edu.tienda.implementacion;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,11 @@ public class TiendaServiceImp extends GenericServiceImp<Tienda, Integer> impleme
 	@Override
 	public CrudRepository<Tienda, Integer> getRepository() {
 		return repositorio;
+	}
+
+	@Override
+	public List<Tienda> findByLikeDireccion(String direccion) {
+		return repositorio.findByLikeDireccion(direccion);
 	}
 
 }

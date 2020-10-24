@@ -14,7 +14,7 @@ public class TransaccionInventarioDetalle {
 	
 	@Id
 	@Column(name = "idtransacciondet")
-	private int idTransaccionDet;
+	private Long idTransaccionDet;
 	
 	@Column(name = "idtransaccion")
 	private int idTransaccion;

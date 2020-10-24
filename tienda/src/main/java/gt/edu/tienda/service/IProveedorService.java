@@ -13,7 +13,8 @@ public interface IProveedorService extends GenericServiceAPI<Proveedor, Integer>
 	
 	Optional<Proveedor> findByNombre(String nombre);
 
-	@Query(value = "SELECT * FROM proveedor p WHERE p.nombre LIKE %UPPER(:nombre)%", nativeQuery = true)
+	@Query(value = "SELECT * FROM proveedor p WHERE p.nombre LIKE '%'||UPPER(:nombre)||'%'", 
+			nativeQuery = true)
 	List<Proveedor> findByLikeNombre(@Param("nombre")String nombre);
 
 	

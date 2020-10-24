@@ -1,16 +1,26 @@
 package gt.edu.tienda.controlador;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import gt.edu.tienda.implementacion.Mensaje;
 import gt.edu.tienda.modelo.TransaccionInventario;
 import gt.edu.tienda.service.ITransaccionInventarioService;
 
@@ -22,30 +32,180 @@ public class TransaccionInventarioRestController {
 	private ITransaccionInventarioService transaccionService;
 	
 	@GetMapping("/")
-	public List<TransaccionInventario> getAll(){
-		return transaccionService.getAll();
+	public ResponseEntity<List<TransaccionInventario>> getAll(){
+		List<TransaccionInventario> list = transaccionService.getAll();
+		return new ResponseEntity<List<TransaccionInventario>>(list, HttpStatus.OK);
 	}
 	
 	@PostMapping
-	public void save(TransaccionInventario ti) {
-		transaccionService.save(ti);
+	public ResponseEntity<TransaccionInventario> save(
+			@RequestBody TransaccionInventario ti
+			) {
+		if(StringUtils.isEmpty(ti.getIdEmpleado())) {
+			return new ResponseEntity(new Mensaje("Empleado es obligatorio"), HttpStatus.BAD_REQUEST);
+		} else {
+			if(StringUtils.isEmpty(ti.getIdTienda())) {
+				return new ResponseEntity(new Mensaje("Tienda es obligatorio"), HttpStatus.BAD_REQUEST);
+			} else {
+				if(StringUtils.isEmpty(ti.getIdTipo())) {
+					return new ResponseEntity(new Mensaje("Tipo de transacción es obligatorio"), HttpStatus.BAD_REQUEST);
+				} else {
+					if(StringUtils.isEmpty(ti.getAnio())) {
+						return new ResponseEntity(new Mensaje("Año es obligatorio"), HttpStatus.BAD_REQUEST);
+					} else {
+						if(StringUtils.isEmpty(ti.getIdPeriodo())) {
+							return new ResponseEntity(new Mensaje("Periodo contable es obligatorio"), HttpStatus.BAD_REQUEST);
+						} else {
+							if(StringUtils.isEmpty(ti.getFecha())) {
+								return new ResponseEntity(new Mensaje("Fecha es obligatorio"), HttpStatus.BAD_REQUEST);
+							} else {
+								return new ResponseEntity<TransaccionInventario>(transaccionService.save(ti), HttpStatus.OK);
+							}
+							
+						}
+						
+					}
+					
+				}
+				
+			}
+			
+		}
 	}
 	
 	@PutMapping
-	public TransaccionInventario update(TransaccionInventario ti) {
-		transaccionService.save(ti);
-		return ti;
+	public ResponseEntity<TransaccionInventario> update(
+			@RequestBody TransaccionInventario ti
+			) {
+		if(StringUtils.isEmpty(ti.getIdEmpleado())) {
+			return new ResponseEntity(new Mensaje("Empleado es obligatorio"), HttpStatus.BAD_REQUEST);
+		} else {
+			if(StringUtils.isEmpty(ti.getIdTienda())) {
+				return new ResponseEntity(new Mensaje("Tienda es obligatorio"), HttpStatus.BAD_REQUEST);
+			} else {
+				if(StringUtils.isEmpty(ti.getIdTipo())) {
+					return new ResponseEntity(new Mensaje("Tipo de transacción es obligatorio"), HttpStatus.BAD_REQUEST);
+				} else {
+					if(StringUtils.isEmpty(ti.getAnio())) {
+						return new ResponseEntity(new Mensaje("Año es obligatorio"), HttpStatus.BAD_REQUEST);
+					} else {
+						if(StringUtils.isEmpty(ti.getIdPeriodo())) {
+							return new ResponseEntity(new Mensaje("Periodo contable es obligatorio"), HttpStatus.BAD_REQUEST);
+						} else {
+							if(StringUtils.isEmpty(ti.getFecha())) {
+								return new ResponseEntity(new Mensaje("Fecha es obligatorio"), HttpStatus.BAD_REQUEST);
+							} else {
+								return new ResponseEntity<TransaccionInventario>(transaccionService.save(ti), HttpStatus.OK);
+							}
+							
+						}
+						
+					}
+					
+				}
+				
+			}
+			
+		}
 	}
 	
 	@DeleteMapping("/{transaccion_id}")
-	public void delete(@PathVariable int transaccion_id) {
+	public ResponseEntity delete(@PathVariable int transaccion_id) {
 		
 		TransaccionInventario ti = transaccionService.get(transaccion_id);
 		
 		if(ti == null) {
-			throw new RuntimeException("Transacción de Inventario no existe " + transaccion_id);
+			return new ResponseEntity(new Mensaje("Transacción no existe"), HttpStatus.NOT_FOUND);
 		} else {
 			transaccionService.delete(transaccion_id);
+			return new ResponseEntity(new Mensaje("Transacción eliminada"), HttpStatus.OK);			
 		}
 	}
+	
+	@GetMapping("/{transaccion_id}")
+	public ResponseEntity<TransaccionInventario> getBy(@PathVariable int transaccion_id) {
+		
+		TransaccionInventario ti = transaccionService.get(transaccion_id);
+		
+		if(ti == null) {
+			return new ResponseEntity(new Mensaje("Transacción no existe"), HttpStatus.NOT_FOUND);
+		} else {
+			transaccionService.delete(transaccion_id);
+			return new ResponseEntity<TransaccionInventario>(ti, HttpStatus.OK);			
+		}
+	}
+	
+	
+	@GetMapping("/porFecha/{fecha}")
+	public ResponseEntity<List<TransaccionInventario>> getByFecha(
+			@RequestParam("fecha")
+			@DateTimeFormat(pattern = "yyyy-MM-dd")
+			Date fecha
+			){
+		
+		List<TransaccionInventario> list = transaccionService.getByFecha(fecha);
+		
+		if(list.isEmpty()) {
+			return new ResponseEntity(new Mensaje("No existen registros"), HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<List<TransaccionInventario>>(list, HttpStatus.OK);
+		}
+		
+	}
+	
+	@GetMapping(path = "/porFecha/filtro/Entre", params = "fecha1,fecha2")
+	public ResponseEntity<List<TransaccionInventario>> getByFechaEntre(
+			@Param("fecha1") Date fecha1,
+			@Param("fecha2") Date fecha2
+			){
+		
+		List<TransaccionInventario> list = transaccionService.getByFechaEntre(fecha1, fecha2);
+		
+		if(list.isEmpty()) {
+			return new ResponseEntity(new Mensaje("No existen registros"), HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<List<TransaccionInventario>>(list, HttpStatus.OK);
+		}
+	}
+	
+	@GetMapping("/porFecha/condicion/MenorIgualA/{fecha}")
+	public ResponseEntity<List<TransaccionInventario>> getByFechaMenorIgualA(@PathVariable Date fecha){
+		
+		List<TransaccionInventario> list = transaccionService.getByFechaMenorIgualA(fecha);
+		
+		if(list.isEmpty()) {
+			return new ResponseEntity(new Mensaje("No existen registros"), HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<List<TransaccionInventario>>(list, HttpStatus.OK);
+		}
+	}
+	
+	@GetMapping("/porFecha/condicion2/MenorIgualA/{fecha}")
+	public ResponseEntity<List<TransaccionInventario>> getByFechaMayorIgualA(
+			@PathVariable("fecha")
+			@DateTimeFormat(pattern = "yyy-MM-dd") 
+			Date fecha
+			){
+		
+		List<TransaccionInventario> list = transaccionService.getByFechaMayorIgualA(fecha);
+		
+		if(list.isEmpty()) {
+			return new ResponseEntity(new Mensaje("No existen registros"), HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<List<TransaccionInventario>>(list, HttpStatus.OK);
+		}
+	}
+	
+	@GetMapping("/porDoctoReferencia/{referencia}")
+	public ResponseEntity<TransaccionInventario> getByDoctoReferencia(@PathVariable String referencia){
+		
+		TransaccionInventario ti = transaccionService.getByReferencia(referencia).get();
+		
+		if(ti == null) {
+			return new ResponseEntity(new Mensaje("No existen registros"), HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<TransaccionInventario>(ti, HttpStatus.OK);			
+		}
+	}
+	
 }
