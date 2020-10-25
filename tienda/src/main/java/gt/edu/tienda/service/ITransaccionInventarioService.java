@@ -11,6 +11,7 @@ import gt.edu.tienda.common.GenericServiceAPI;
 import gt.edu.tienda.modelo.TransaccionInventario;
 
 public interface ITransaccionInventarioService extends GenericServiceAPI<TransaccionInventario, Integer>{
+
 	List<TransaccionInventario> getByFecha(Date fecha);
 	
 	@Query(value = "SELECT * FROM transaccion_inventario ti WHERE ti.fecha BETWEEN :fecha1 AND :fecha2", nativeQuery = true)
@@ -29,7 +30,11 @@ public interface ITransaccionInventarioService extends GenericServiceAPI<Transac
 	
 	List<TransaccionInventario> getByAnio(int anio);
 	
-	List<TransaccionInventario> getByAnioPeriodo(int anio, int periodo);
+	@Query(value = "SELECT * FROM transaccion_inventario ti WHERE ti.anio = :anio AND ti.idperiodo = :periodo",
+			nativeQuery = true)
+	List<TransaccionInventario> getByAnioPeriodo(
+			@Param("anio")   int anio, 
+			@Param("periodo")int periodo);
 	
 	List<TransaccionInventario> getByIdProveedor(int proveedorId);
 	

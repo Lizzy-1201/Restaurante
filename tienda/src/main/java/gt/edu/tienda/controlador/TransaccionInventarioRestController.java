@@ -1,6 +1,5 @@
 package gt.edu.tienda.controlador;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import gt.edu.tienda.implementacion.Mensaje;
@@ -123,7 +121,7 @@ public class TransaccionInventarioRestController {
 	}
 	
 	@GetMapping("/{transaccion_id}")
-	public ResponseEntity<TransaccionInventario> getBy(@PathVariable int transaccion_id) {
+	public ResponseEntity<TransaccionInventario> getById(@PathVariable int transaccion_id) {
 		
 		TransaccionInventario ti = transaccionService.get(transaccion_id);
 		
@@ -138,7 +136,7 @@ public class TransaccionInventarioRestController {
 	
 	@GetMapping("/porFecha/{fecha}")
 	public ResponseEntity<List<TransaccionInventario>> getByFecha(
-			@RequestParam("fecha")
+			@PathVariable("fecha")
 			@DateTimeFormat(pattern = "yyyy-MM-dd")
 			Date fecha
 			){
@@ -153,10 +151,10 @@ public class TransaccionInventarioRestController {
 		
 	}
 	
-	@GetMapping(path = "/porFecha/filtro/Entre", params = "fecha1,fecha2")
+	@GetMapping(path = "/porFecha/Entre", params = {"fecha1","fecha2"})
 	public ResponseEntity<List<TransaccionInventario>> getByFechaEntre(
-			@Param("fecha1") Date fecha1,
-			@Param("fecha2") Date fecha2
+			@Param("fecha1") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecha1,
+			@Param("fecha2") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecha2
 			){
 		
 		List<TransaccionInventario> list = transaccionService.getByFechaEntre(fecha1, fecha2);
@@ -169,7 +167,10 @@ public class TransaccionInventarioRestController {
 	}
 	
 	@GetMapping("/porFecha/condicion/MenorIgualA/{fecha}")
-	public ResponseEntity<List<TransaccionInventario>> getByFechaMenorIgualA(@PathVariable Date fecha){
+	public ResponseEntity<List<TransaccionInventario>> getByFechaMenorIgualA(
+			@PathVariable 
+			@DateTimeFormat(pattern = "yyyy-MM-dd")
+			Date fecha){
 		
 		List<TransaccionInventario> list = transaccionService.getByFechaMenorIgualA(fecha);
 		
@@ -183,7 +184,7 @@ public class TransaccionInventarioRestController {
 	@GetMapping("/porFecha/condicion2/MenorIgualA/{fecha}")
 	public ResponseEntity<List<TransaccionInventario>> getByFechaMayorIgualA(
 			@PathVariable("fecha")
-			@DateTimeFormat(pattern = "yyy-MM-dd") 
+			@DateTimeFormat(pattern = "yyyy-MM-dd")
 			Date fecha
 			){
 		
@@ -197,7 +198,8 @@ public class TransaccionInventarioRestController {
 	}
 	
 	@GetMapping("/porDoctoReferencia/{referencia}")
-	public ResponseEntity<TransaccionInventario> getByDoctoReferencia(@PathVariable String referencia){
+	public ResponseEntity<TransaccionInventario> getByReferencia(
+			@PathVariable("referencia") String referencia){
 		
 		TransaccionInventario ti = transaccionService.getByReferencia(referencia).get();
 		
@@ -205,6 +207,76 @@ public class TransaccionInventarioRestController {
 			return new ResponseEntity(new Mensaje("No existen registros"), HttpStatus.NOT_FOUND);
 		} else {
 			return new ResponseEntity<TransaccionInventario>(ti, HttpStatus.OK);			
+		}
+	}
+	
+	@GetMapping("/porEmpleado/{id_empleado}")
+	public ResponseEntity<List<TransaccionInventario>> getByIdEmpleado(
+			@PathVariable("id_empleado")
+			int idEmpleado){
+		
+		List<TransaccionInventario> list = transaccionService.getByIdEmpleado(idEmpleado);
+		
+		if(list.isEmpty()) {
+			return new ResponseEntity(new Mensaje("No existen registros"),HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<List<TransaccionInventario>>(list, HttpStatus.OK);
+		}
+	}
+	
+	@GetMapping("/porAnio/{anio}")
+	public ResponseEntity<List<TransaccionInventario>> getByAnio(
+			@PathVariable("anio")
+			int anio){
+		
+		List<TransaccionInventario> list = transaccionService.getByAnio(anio);
+		
+		if(list.isEmpty()) {
+			return new ResponseEntity(new Mensaje("No existen registros"),HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<List<TransaccionInventario>>(list, HttpStatus.OK);
+		}
+	}
+
+	@GetMapping(path = "/porAnio/porPeriodo/", params = {"anio","periodo"})
+	public ResponseEntity<List<TransaccionInventario>> getByAnioPeriodo(
+			@Param("anio")
+			int anio,
+			@Param("periodo")
+			int periodo){
+		
+		List<TransaccionInventario> list = transaccionService.getByAnioPeriodo(anio, periodo);
+		
+		if(list.isEmpty()) {
+			return new ResponseEntity(new Mensaje("No existen registros"),HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<List<TransaccionInventario>>(list, HttpStatus.OK);
+		}
+	}
+	
+	@GetMapping("/porProveedor/{id_proveedor}")
+	public ResponseEntity<List<TransaccionInventario>> getByProveedor(
+			@PathVariable("id_proveedor") int proveedor){
+		
+		List<TransaccionInventario> list = transaccionService.getByIdProveedor(proveedor);
+		
+		if(list.isEmpty()) {
+			return new ResponseEntity(new Mensaje("No existen registros"),HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<List<TransaccionInventario>>(list, HttpStatus.OK);
+		}
+	}
+	
+	@GetMapping("/porTransaccionOrigen/{transaccion_id}")
+	public ResponseEntity<TransaccionInventario> getByTransaccionOrigen(
+			@PathVariable("transaccion_id") int origen){
+		
+		TransaccionInventario ti = transaccionService.getByTransaccionOrigen(origen).get();
+		
+		if(ti == null) {
+			return new ResponseEntity(new Mensaje("No existen registros"), HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<TransaccionInventario>(ti, HttpStatus.OK);
 		}
 	}
 	

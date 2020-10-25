@@ -13,9 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.sun.istack.NotNull;
 import com.sun.istack.Nullable;
 
@@ -52,9 +49,7 @@ public class TransaccionInventario {
 	private int idPeriodo;
 	
 	@Column(name = "fecha")
-	@NotNull
-	@JsonFormat(pattern = "yyy-MM-dd", shape = Shape.STRING)
-	private String fecha;
+	private Date fecha;
 	
 	@Column(name = "transaccionorigen")
 	@Nullable
