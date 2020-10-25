@@ -38,7 +38,7 @@ public class RolRestController {
 			return new ResponseEntity(new Mensaje("Descripción obligatoria"), HttpStatus.BAD_REQUEST);
 		} else {
 			
-			return new ResponseEntity(rolService.save(rol), HttpStatus.OK);			
+			return new ResponseEntity<Rol>(rolService.save(rol), HttpStatus.OK);			
 		}
 	}
 	
@@ -48,7 +48,7 @@ public class RolRestController {
 			return new ResponseEntity(new Mensaje("Descripción obligatoria"), HttpStatus.BAD_REQUEST);
 		} else {
 			
-			return new ResponseEntity(rolService.save(rol), HttpStatus.OK);			
+			return new ResponseEntity<Rol>(rolService.save(rol), HttpStatus.OK);			
 		}
 	}
 
