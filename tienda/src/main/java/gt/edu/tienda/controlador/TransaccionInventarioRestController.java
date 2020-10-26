@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import gt.edu.tienda.implementacion.Mensaje;
 import gt.edu.tienda.modelo.TransaccionInventario;
+import gt.edu.tienda.modelo.TransaccionInventarioDetalle;
+import gt.edu.tienda.service.ITransaccionInventarioDetalleService;
 import gt.edu.tienda.service.ITransaccionInventarioService;
 
 @RestController
@@ -29,6 +31,9 @@ public class TransaccionInventarioRestController {
 
 	@Autowired
 	private ITransaccionInventarioService transaccionService;
+	
+	@Autowired
+	private ITransaccionInventarioDetalleService transaccionDetalleService;
 	
 	@GetMapping("/")
 	public ResponseEntity<List<TransaccionInventario>> getAll(){
@@ -58,7 +63,13 @@ public class TransaccionInventarioRestController {
 							if(StringUtils.isEmpty(ti.getFecha())) {
 								return new ResponseEntity(new Mensaje("Fecha es obligatorio"), HttpStatus.BAD_REQUEST);
 							} else {
+								TransaccionInventario maestro = new TransaccionInventario();
+								
+								for(TransaccionInventarioDetalle tid : ti.getDetalles()) {
+									
+								}
 								return new ResponseEntity<TransaccionInventario>(transaccionService.save(ti), HttpStatus.OK);
+								//return new  ResponseEntity<TransaccionInventario>(maestro, HttpStatus.OK);
 							}
 							
 						}
@@ -94,6 +105,12 @@ public class TransaccionInventarioRestController {
 							if(StringUtils.isEmpty(ti.getFecha())) {
 								return new ResponseEntity(new Mensaje("Fecha es obligatorio"), HttpStatus.BAD_REQUEST);
 							} else {
+								// Crea el maestro de la transacción
+								TransaccionInventario master = transaccionService.save(ti);
+								// Verifica si lleva detalle
+								if (master.getDetalles().isEmpty()) {
+									
+								}
 								return new ResponseEntity<TransaccionInventario>(transaccionService.save(ti), HttpStatus.OK);
 							}
 							

@@ -13,7 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import com.sun.istack.NotNull;
 import com.sun.istack.Nullable;
 
 import lombok.Data;
@@ -23,8 +22,9 @@ import lombok.Data;
 @Table(name = "transaccion_inventario")
 public class TransaccionInventario {
 
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "Transaccion_Inventario_id_transaccion_seq")
 	@Column(name = "idtransaccion")
 	private int id;
 	
@@ -47,15 +47,19 @@ public class TransaccionInventario {
 	private Date fecha;
 	
 	@Column(name = "transaccionorigen")
+	@Nullable
 	private int transaccionOrigen;
 	
 	@Column(name = "idproveedor")
+	@Nullable
 	private int idProveedor;
 	
 	@Column(name = "idtipodocto")
+	@Nullable
 	private int tipoDocto;
 	
 	@Column(name = "doctoreferencia")
+	@Nullable
 	private String referencia;
 	
 	// Detalle de la transaccion
