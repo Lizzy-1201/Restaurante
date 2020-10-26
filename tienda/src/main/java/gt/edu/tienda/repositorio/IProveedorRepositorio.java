@@ -13,9 +13,9 @@ public interface IProveedorRepositorio extends CrudRepository<Proveedor, Integer
 	
 	Optional<Proveedor> findByNombre(String nombre);
 
-	@Query(value = "SELECT * FROM proveedor p WHERE p.nombre LIKE %:nombre%", nativeQuery = true)
+	@Query(value = "SELECT * FROM proveedor p WHERE UPPER(p.nombre) LIKE '%'||UPPER(:nombre)||'%'", 
+			nativeQuery = true)
 	List<Proveedor> findByLikeNombre(@Param("nombre")String nombre);
 	
-	//boolean existByNombre(String nombre);
 	
 }

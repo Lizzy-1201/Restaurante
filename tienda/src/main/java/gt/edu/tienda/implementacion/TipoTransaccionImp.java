@@ -1,5 +1,7 @@
 package gt.edu.tienda.implementacion;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,11 @@ public class TipoTransaccionImp extends GenericServiceImp<TipoTransaccion, Integ
 	@Override
 	public CrudRepository<TipoTransaccion, Integer> getRepository() {
 		return repositorio;
+	}
+
+	@Override
+	public List<TipoTransaccion> findByFactor(int factor) {
+		return repositorio.findByFactor(factor);
 	}
 	
 

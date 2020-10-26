@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -39,7 +38,7 @@ public class ProveedorRestController {
 		if(StringUtils.isEmpty(proveedor.getNombre())) {
 			return new ResponseEntity(new Mensaje("El nombre del proveedor es obligatorio"), HttpStatus.BAD_REQUEST);
 		} else {
-			return new ResponseEntity(proveedorService.save(proveedor), HttpStatus.OK);
+			return new ResponseEntity<Proveedor>(proveedorService.save(proveedor), HttpStatus.OK);
 		}
 	}
 	
@@ -48,7 +47,7 @@ public class ProveedorRestController {
 		if(StringUtils.isEmpty(proveedor.getNombre())) {
 			return new ResponseEntity(new Mensaje("El nombre del proveedor es obligatorio"), HttpStatus.BAD_REQUEST);
 		} else {
-			return new ResponseEntity(proveedorService.save(proveedor), HttpStatus.OK);
+			return new ResponseEntity<Proveedor>(proveedorService.save(proveedor), HttpStatus.OK);
 		}
 	}
 	

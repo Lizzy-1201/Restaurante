@@ -13,7 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
 import com.sun.istack.NotNull;
 import com.sun.istack.Nullable;
 
@@ -50,7 +49,6 @@ public class TransaccionInventario {
 	private int idPeriodo;
 	
 	@Column(name = "fecha")
-	@NotNull
 	private Date fecha;
 	
 	@Column(name = "transaccionorigen")
