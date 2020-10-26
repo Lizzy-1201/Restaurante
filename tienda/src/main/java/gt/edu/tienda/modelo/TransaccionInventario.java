@@ -29,42 +29,33 @@ public class TransaccionInventario {
 	private int id;
 	
 	@Column(name = "idempleado")
-	@NotNull
 	private int idEmpleado;
 	
 	@Column(name = "idtienda")
-	@NotNull
 	private int idTienda;
 	
 	@Column(name = "idtipo")
-	@NotNull
 	private int idTipo;
 	
 	@Column(name = "anio")
-	@NotNull
 	private int anio;
 	
 	@Column(name = "idperiodo")
-	@NotNull
 	private int idPeriodo;
 	
 	@Column(name = "fecha")
 	private Date fecha;
 	
 	@Column(name = "transaccionorigen")
-	@Nullable
 	private int transaccionOrigen;
 	
 	@Column(name = "idproveedor")
-	@Nullable
 	private int idProveedor;
 	
 	@Column(name = "idtipodocto")
-	@Nullable
 	private int tipoDocto;
 	
 	@Column(name = "doctoreferencia")
-	@Nullable
 	private String referencia;
 	
 	// Detalle de la transaccion

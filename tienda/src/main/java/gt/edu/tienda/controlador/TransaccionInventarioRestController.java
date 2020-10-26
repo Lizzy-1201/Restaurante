@@ -2,6 +2,7 @@ package gt.edu.tienda.controlador;
 
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -201,7 +202,12 @@ public class TransaccionInventarioRestController {
 	public ResponseEntity<TransaccionInventario> getByReferencia(
 			@PathVariable("referencia") String referencia){
 		
-		TransaccionInventario ti = transaccionService.getByReferencia(referencia).get();
+		TransaccionInventario ti;
+		try {
+			ti = transaccionService.getByReferencia(referencia).get();
+		} catch (NoSuchElementException e) {
+			ti = null;
+		}
 		
 		if(ti == null) {
 			return new ResponseEntity(new Mensaje("No existen registros"), HttpStatus.NOT_FOUND);
@@ -271,7 +277,12 @@ public class TransaccionInventarioRestController {
 	public ResponseEntity<TransaccionInventario> getByTransaccionOrigen(
 			@PathVariable("transaccion_id") int origen){
 		
-		TransaccionInventario ti = transaccionService.getByTransaccionOrigen(origen).get();
+		TransaccionInventario ti;
+		try {
+			ti = transaccionService.getByTransaccionOrigen(origen).get();
+		} catch (NoSuchElementException e) {
+			ti = null;
+		}
 		
 		if(ti == null) {
 			return new ResponseEntity(new Mensaje("No existen registros"), HttpStatus.NOT_FOUND);
