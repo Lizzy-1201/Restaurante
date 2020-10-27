@@ -13,7 +13,7 @@ public interface IEstadoEmpleadoRepositorio extends CrudRepository<EstadoEmplead
 	
 	Optional<EstadoEmpleado> findByDescripcion(String descripcion);
 
-	@Query(value = "SELECT * FROM estadoempleado d WHERE UPPER(d.descripcion) LIKE '%'||UPPER(:descripcion)||'%'", 
+	@Query(value = "SELECT * FROM estado_empleado d WHERE UPPER(d.descripcion) LIKE '%'||UPPER(:descripcion)||'%'", 
 			nativeQuery = true)
 	List<EstadoEmpleado> findByLikeDescripcion(@Param("descripcion")String descripcion);
 	
