@@ -23,8 +23,12 @@ import lombok.Data;
 public class TransaccionInventario {
 
 	
+	public TransaccionInventario() {
+		super();
+	}
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "Transaccion_Inventario_id_transaccion_seq")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idtransaccion")
 	private int id;
 	

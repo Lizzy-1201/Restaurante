@@ -3,6 +3,8 @@ package gt.edu.tienda.modelo;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -33,5 +35,9 @@ public class TransaccionInventarioDetalle {
 	
 	@Column(name = "costototal")
 	private double costoTotal;
+	
+	@ManyToOne
+	@JoinColumn(name = "idtransaccion")
+	private TransaccionInventario transaccion;
 
 }

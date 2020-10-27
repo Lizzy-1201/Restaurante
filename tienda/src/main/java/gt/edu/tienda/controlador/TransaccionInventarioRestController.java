@@ -63,13 +63,13 @@ public class TransaccionInventarioRestController {
 							if(StringUtils.isEmpty(ti.getFecha())) {
 								return new ResponseEntity(new Mensaje("Fecha es obligatorio"), HttpStatus.BAD_REQUEST);
 							} else {
-								TransaccionInventario maestro = new TransaccionInventario();
-								
-								for(TransaccionInventarioDetalle tid : ti.getDetalles()) {
-									
-								}
+//								ResponseEntity<TransaccionInventario> transaccion = new ResponseEntity<TransaccionInventario>(transaccionService.save(ti), HttpStatus.OK);
+//								for(TransaccionInventarioDetalle tid : ti.getDetalles()) {
+//									TransaccionInventarioDetalle tempTid = transaccionDetalleService.save(tid);
+//								}
 								return new ResponseEntity<TransaccionInventario>(transaccionService.save(ti), HttpStatus.OK);
 								//return new  ResponseEntity<TransaccionInventario>(maestro, HttpStatus.OK);
+//								return transaccion;
 							}
 							
 						}
