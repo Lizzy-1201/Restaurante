@@ -14,13 +14,13 @@ import gt.edu.tienda.repositorio.ITransaccionInventarioRepositorio;
 import gt.edu.tienda.service.ITransaccionInventarioService;
 
 @Service
-public class TransaccionInventarioImp extends GenericServiceImp<TransaccionInventario, Integer> implements ITransaccionInventarioService{
+public class TransaccionInventarioImp extends GenericServiceImp<TransaccionInventario, Long> implements ITransaccionInventarioService{
 
 	@Autowired
 	private ITransaccionInventarioRepositorio repositorio;
 	
 	@Override
-	public CrudRepository<TransaccionInventario, Integer> getRepository() {
+	public CrudRepository<TransaccionInventario, Long> getRepository() {
 		return repositorio;
 	}
 
@@ -70,7 +70,7 @@ public class TransaccionInventarioImp extends GenericServiceImp<TransaccionInven
 	}
 
 	@Override
-	public Optional<TransaccionInventario> getByTransaccionOrigen(int transaccionId) {
+	public Optional<TransaccionInventario> getByTransaccionOrigen(Long transaccionId) {
 		return repositorio.getByTransaccionOrigen(transaccionId);
 	}
 

@@ -1,6 +1,5 @@
 package gt.edu.tienda.modelo;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,27 +9,24 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import com.sun.istack.Nullable;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @Entity
 @Table(name = "transaccion_inventario")
 public class TransaccionInventario {
-
 	
-	public TransaccionInventario() {
-		super();
-	}
-
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@SequenceGenerator(name = "transaccion_id", sequenceName = "transaccion_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transaccion_id")
 	@Column(name = "idtransaccion")
-	private int id;
+	private Long id;
 	
 	@Column(name = "idempleado")
 	private int idEmpleado;
@@ -51,26 +47,23 @@ public class TransaccionInventario {
 	private Date fecha;
 	
 	@Column(name = "transaccionorigen")
-	@Nullable
-	private int transaccionOrigen;
+	private Long transaccionOrigen;
 	
 	@Column(name = "idproveedor")
-	@Nullable
 	private int idProveedor;
 	
 	@Column(name = "idtipodocto")
-	@Nullable
 	private int tipoDocto;
 	
 	@Column(name = "doctoreferencia")
-	@Nullable
 	private String referencia;
 	
-	// Detalle de la transaccion
-	@OneToMany(
-		cascade = CascadeType.ALL,
-		orphanRemoval = true
-	)
-	@JoinColumn(name = "idtransaccion")
-	private List<TransaccionInventarioDetalle> detalles = new ArrayList<>();
+//	@OneToMany(
+//		targetEntity = TransaccionInventarioDetalle.class,
+//		cascade = CascadeType.ALL,
+//		orphanRemoval = true
+//	)
+//	private List<TransaccionInventario> detalles;
+
+
 }

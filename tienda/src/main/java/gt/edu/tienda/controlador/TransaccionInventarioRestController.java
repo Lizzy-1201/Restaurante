@@ -21,8 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import gt.edu.tienda.implementacion.Mensaje;
 import gt.edu.tienda.modelo.TransaccionInventario;
-import gt.edu.tienda.modelo.TransaccionInventarioDetalle;
-import gt.edu.tienda.service.ITransaccionInventarioDetalleService;
 import gt.edu.tienda.service.ITransaccionInventarioService;
 
 @RestController
@@ -31,9 +29,6 @@ public class TransaccionInventarioRestController {
 
 	@Autowired
 	private ITransaccionInventarioService transaccionService;
-	
-	@Autowired
-	private ITransaccionInventarioDetalleService transaccionDetalleService;
 	
 	@GetMapping("/")
 	public ResponseEntity<List<TransaccionInventario>> getAll(){
@@ -63,13 +58,9 @@ public class TransaccionInventarioRestController {
 							if(StringUtils.isEmpty(ti.getFecha())) {
 								return new ResponseEntity(new Mensaje("Fecha es obligatorio"), HttpStatus.BAD_REQUEST);
 							} else {
-//								ResponseEntity<TransaccionInventario> transaccion = new ResponseEntity<TransaccionInventario>(transaccionService.save(ti), HttpStatus.OK);
-//								for(TransaccionInventarioDetalle tid : ti.getDetalles()) {
-//									TransaccionInventarioDetalle tempTid = transaccionDetalleService.save(tid);
-//								}
+
 								return new ResponseEntity<TransaccionInventario>(transaccionService.save(ti), HttpStatus.OK);
-								//return new  ResponseEntity<TransaccionInventario>(maestro, HttpStatus.OK);
-//								return transaccion;
+
 							}
 							
 						}
@@ -106,11 +97,11 @@ public class TransaccionInventarioRestController {
 								return new ResponseEntity(new Mensaje("Fecha es obligatorio"), HttpStatus.BAD_REQUEST);
 							} else {
 								// Crea el maestro de la transacción
-								TransaccionInventario master = transaccionService.save(ti);
+//								TransaccionInventario master = transaccionService.save(ti);
 								// Verifica si lleva detalle
-								if (master.getDetalles().isEmpty()) {
-									
-								}
+//								if (master.getDetalles().isEmpty()) {
+//									
+//								}
 								return new ResponseEntity<TransaccionInventario>(transaccionService.save(ti), HttpStatus.OK);
 							}
 							
@@ -126,7 +117,7 @@ public class TransaccionInventarioRestController {
 	}
 	
 	@DeleteMapping("/{transaccion_id}")
-	public ResponseEntity delete(@PathVariable int transaccion_id) {
+	public ResponseEntity delete(@PathVariable long transaccion_id) {
 		
 		TransaccionInventario ti = transaccionService.get(transaccion_id);
 		
@@ -139,7 +130,7 @@ public class TransaccionInventarioRestController {
 	}
 	
 	@GetMapping("/{transaccion_id}")
-	public ResponseEntity<TransaccionInventario> getById(@PathVariable int transaccion_id) {
+	public ResponseEntity<TransaccionInventario> getById(@PathVariable long transaccion_id) {
 		
 		TransaccionInventario ti = transaccionService.get(transaccion_id);
 		
@@ -292,7 +283,7 @@ public class TransaccionInventarioRestController {
 	
 	@GetMapping("/porTransaccionOrigen/{transaccion_id}")
 	public ResponseEntity<TransaccionInventario> getByTransaccionOrigen(
-			@PathVariable("transaccion_id") int origen){
+			@PathVariable("transaccion_id") Long origen){
 		
 		TransaccionInventario ti;
 		try {

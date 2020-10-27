@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 import gt.edu.tienda.common.GenericServiceAPI;
 import gt.edu.tienda.modelo.TransaccionInventario;
 
-public interface ITransaccionInventarioService extends GenericServiceAPI<TransaccionInventario, Integer>{
+public interface ITransaccionInventarioService extends GenericServiceAPI<TransaccionInventario, Long>{
 
 	List<TransaccionInventario> getByFecha(Date fecha);
 	
@@ -38,6 +38,6 @@ public interface ITransaccionInventarioService extends GenericServiceAPI<Transac
 	
 	List<TransaccionInventario> getByIdProveedor(int proveedorId);
 	
-	Optional<TransaccionInventario> getByTransaccionOrigen (int transaccionId);
+	Optional<TransaccionInventario> getByTransaccionOrigen (Long transaccionId);
 
 }
