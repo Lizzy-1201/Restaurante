@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 import gt.edu.tienda.modelo.TransaccionInventario;
 
 public interface ITransaccionInventarioRepositorio extends CrudRepository<TransaccionInventario, Long>{
-
+	
 	List<TransaccionInventario> getByFecha(Date fecha);
 	
 	@Query(value = "SELECT * FROM transaccion_inventario ti WHERE ti.fecha BETWEEN :fecha1 AND :fecha2", nativeQuery = true)

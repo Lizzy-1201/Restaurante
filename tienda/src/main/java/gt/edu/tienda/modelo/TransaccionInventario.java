@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -66,11 +67,16 @@ public class TransaccionInventario {
 	private String referencia;
 	
 //	@OneToMany(
+//		mappedBy = "maestro",
 //		targetEntity = TransaccionInventarioDetalle.class,
-//		cascade = CascadeType.ALL,
+//		cascade = CascadeType.ALL
 //		orphanRemoval = true
 //	)
-	private List<TransaccionInventario> detalles;
+//	@JoinColumn(referencedColumnName = "idtransaccion")
+//	@OneToMany
+//	@JoinColumn(name = "idtransaccion")
+	@OneToMany(mappedBy = "maestro", cascade = CascadeType.ALL)
+	private List<TransaccionInventarioDetalle> detalles;
 
 
 }

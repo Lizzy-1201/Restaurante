@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import gt.edu.tienda.common.GenericServiceImp;
 import gt.edu.tienda.modelo.TransaccionInventario;
+import gt.edu.tienda.modelo.TransaccionInventarioDetalle;
+import gt.edu.tienda.repositorio.ITransaccionInventarioDetalleRepositorio;
 import gt.edu.tienda.repositorio.ITransaccionInventarioRepositorio;
 import gt.edu.tienda.service.ITransaccionInventarioService;
 
@@ -19,6 +21,36 @@ public class TransaccionInventarioImp extends GenericServiceImp<TransaccionInven
 	@Autowired
 	private ITransaccionInventarioRepositorio repositorio;
 	
+	@Autowired ITransaccionInventarioDetalleRepositorio detalleRepositorio;
+	
+	
+	  @Override 
+	  public TransaccionInventario save(TransaccionInventario ti) { 
+		  //Crea una nueva transacción 
+		  TransaccionInventario newTransaccion = new TransaccionInventario(); 
+		  newTransaccion.setAnio(ti.getAnio());
+		  newTransaccion.setFecha(ti.getFecha());
+		  newTransaccion.setIdEmpleado(ti.getIdEmpleado());
+		  newTransaccion.setIdPeriodo(ti.getIdPeriodo());
+		  newTransaccion.setIdProveedor(ti.getIdProveedor());
+		  newTransaccion.setIdTienda(ti.getIdTienda());
+		  newTransaccion.setIdTipo(ti.getIdTipo());
+		  newTransaccion.setReferencia(ti.getReferencia());
+		  newTransaccion.setTipoDocto(ti.getTipoDocto());
+		  newTransaccion.setTransaccionOrigen(ti.getTransaccionOrigen()); 
+		  // Guarda elegistro 
+		  TransaccionInventario savedTransaccion = repositorio.save(newTransaccion);
+		  // Asigna el identificador al detalle
+		  for(TransaccionInventarioDetalle tid : ti.getDetalles()) {
+			  tid.setMaestro(savedTransaccion);
+			  // Añade el detalle a la lista
+			  detalleRepositorio.save(tid);
+		  }
+		  //savedTransaccion.setDetalles(ti.getDetalles());
+		  return savedTransaccion;
+	  
+	  }
+	 	
 	@Override
 	public CrudRepository<TransaccionInventario, Long> getRepository() {
 		return repositorio;
