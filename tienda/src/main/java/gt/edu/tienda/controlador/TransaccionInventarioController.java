@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -25,17 +26,22 @@ import gt.edu.tienda.service.ITransaccionInventarioService;
 
 @RestController
 @RequestMapping("/transaccionInventario")
-public class TransaccionInventarioRestController {
-
+public class TransaccionInventarioController {
+	
 	@Autowired
 	private ITransaccionInventarioService transaccionService;
 	
 	@GetMapping("/")
 	public ResponseEntity<List<TransaccionInventario>> getAll(){
 		List<TransaccionInventario> list = transaccionService.getAll();
-		return new ResponseEntity<List<TransaccionInventario>>(list, HttpStatus.OK);
+		if(list.isEmpty()) {
+			return new ResponseEntity(new Mensaje("No existen datos"), HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<List<TransaccionInventario>>(list, HttpStatus.OK);
+		}
+		
 	}
-	
+
 	@PostMapping
 	public ResponseEntity<TransaccionInventario> save(
 			@RequestBody TransaccionInventario ti
@@ -298,5 +304,7 @@ public class TransaccionInventarioRestController {
 			return new ResponseEntity<TransaccionInventario>(ti, HttpStatus.OK);
 		}
 	}
+
 	
+
 }

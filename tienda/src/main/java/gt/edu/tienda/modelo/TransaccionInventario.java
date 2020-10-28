@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.sun.istack.Nullable;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -23,8 +25,9 @@ import lombok.NoArgsConstructor;
 public class TransaccionInventario {
 	
 	@Id
-	@SequenceGenerator(name = "transaccion_id", sequenceName = "transaccion_seq", allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transaccion_id")
+//	@SequenceGenerator(name = "transaccion_id", sequenceName = "transaccion_seq", allocationSize = 1)
+//	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transaccion_id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idtransaccion")
 	private Long id;
 	
@@ -47,15 +50,19 @@ public class TransaccionInventario {
 	private Date fecha;
 	
 	@Column(name = "transaccionorigen")
+	@Nullable
 	private Long transaccionOrigen;
 	
 	@Column(name = "idproveedor")
-	private int idProveedor;
+	@Nullable
+	private Integer idProveedor;
 	
 	@Column(name = "idtipodocto")
-	private int tipoDocto;
+	@Nullable
+	private Long tipoDocto;
 	
 	@Column(name = "doctoreferencia")
+	@Nullable
 	private String referencia;
 	
 //	@OneToMany(
@@ -63,7 +70,7 @@ public class TransaccionInventario {
 //		cascade = CascadeType.ALL,
 //		orphanRemoval = true
 //	)
-//	private List<TransaccionInventario> detalles;
+	private List<TransaccionInventario> detalles;
 
 
 }

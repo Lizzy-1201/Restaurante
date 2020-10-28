@@ -4,14 +4,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import gt.edu.tienda.modelo.TransaccionInventario;
 
-public interface ITransaccionInventarioRepositorio extends JpaRepository<TransaccionInventario, Long>{
+public interface ITransaccionInventarioRepositorio extends CrudRepository<TransaccionInventario, Long>{
 
 	List<TransaccionInventario> getByFecha(Date fecha);
 	
@@ -39,6 +38,6 @@ public interface ITransaccionInventarioRepositorio extends JpaRepository<Transac
 	
 	List<TransaccionInventario> getByIdProveedor(int proveedorId);
 	
-	Optional<TransaccionInventario> getByTransaccionOrigen (long transaccionId);
-	
+	Optional<TransaccionInventario> getByTransaccionOrigen (Long transaccionId);
+
 }
