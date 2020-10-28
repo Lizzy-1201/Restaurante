@@ -1,6 +1,7 @@
 package gt.edu.tienda.controlador;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -79,7 +80,13 @@ public class EstadoEmpleadoRestController {
 	@GetMapping("/descripcion/{estadoempleado_descripcion}")
 	public ResponseEntity<EstadoEmpleado> getByDescripcion(@PathVariable String estadoempleado_descripcion) {
 		
-		EstadoEmpleado estadoempleado = estadoempleadoService.findByDescripcion(estadoempleado_descripcion).get();
+		EstadoEmpleado estadoempleado;
+		try {
+			estadoempleado = estadoempleadoService.findByDescripcion(estadoempleado_descripcion).get();
+		} catch (NoSuchElementException e) {
+			// TODO Auto-generated catch block
+			estadoempleado = null;
+		}
 		
 		if(estadoempleado == null) {
 			return new ResponseEntity(new Mensaje("Estado no existe"), HttpStatus.NOT_FOUND);
