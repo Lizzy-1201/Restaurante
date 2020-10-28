@@ -102,12 +102,6 @@ public class TransaccionInventarioController {
 							if(StringUtils.isEmpty(ti.getFecha())) {
 								return new ResponseEntity(new Mensaje("Fecha es obligatorio"), HttpStatus.BAD_REQUEST);
 							} else {
-								// Crea el maestro de la transacción
-//								TransaccionInventario master = transaccionService.save(ti);
-								// Verifica si lleva detalle
-//								if (master.getDetalles().isEmpty()) {
-//									
-//								}
 								return new ResponseEntity<TransaccionInventario>(transaccionService.save(ti), HttpStatus.OK);
 							}
 							
