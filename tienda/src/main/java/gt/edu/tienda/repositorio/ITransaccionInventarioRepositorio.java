@@ -10,8 +10,8 @@ import org.springframework.data.repository.query.Param;
 
 import gt.edu.tienda.modelo.TransaccionInventario;
 
-public interface ITransaccionInventarioRepositorio extends CrudRepository<TransaccionInventario, Integer>{
-
+public interface ITransaccionInventarioRepositorio extends CrudRepository<TransaccionInventario, Long>{
+	
 	List<TransaccionInventario> getByFecha(Date fecha);
 	
 	@Query(value = "SELECT * FROM transaccion_inventario ti WHERE ti.fecha BETWEEN :fecha1 AND :fecha2", nativeQuery = true)
@@ -38,6 +38,6 @@ public interface ITransaccionInventarioRepositorio extends CrudRepository<Transa
 	
 	List<TransaccionInventario> getByIdProveedor(int proveedorId);
 	
-	Optional<TransaccionInventario> getByTransaccionOrigen (int transaccionId);
-	
+	Optional<TransaccionInventario> getByTransaccionOrigen (Long transaccionId);
+
 }

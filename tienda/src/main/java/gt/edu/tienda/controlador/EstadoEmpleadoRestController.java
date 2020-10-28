@@ -65,7 +65,7 @@ public class EstadoEmpleadoRestController {
 	}
 	
 	@GetMapping("/{estadoempleado_id}")
-	public ResponseEntity<EstadoEmpleado> get(@PathVariable int estadoempleado_id) {
+	public ResponseEntity<EstadoEmpleado> getById(@PathVariable int estadoempleado_id) {
 		
 		EstadoEmpleado estadoempleado = estadoempleadoService.get(estadoempleado_id);
 		

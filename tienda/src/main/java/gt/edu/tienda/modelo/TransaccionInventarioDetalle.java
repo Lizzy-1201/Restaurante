@@ -2,8 +2,15 @@ package gt.edu.tienda.modelo;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 
@@ -11,19 +18,17 @@ import lombok.Data;
 @Entity
 @Table(name = "transaccion_inventario_det")
 public class TransaccionInventarioDetalle {
-	
+
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idtransacciondet")
-	private Long idTransaccionDet;
-	
-	@Column(name = "idtransaccion")
-	private int idTransaccion;
+	private Long idDetalle;
 	
 	@Column(name = "linea")
 	private int linea;
 	
 	@Column(name = "idproducto")
-	private int idProducto;
+	private Long idProducto;
 	
 	@Column(name = "unidades")
 	private double unidades;
@@ -33,5 +38,16 @@ public class TransaccionInventarioDetalle {
 	
 	@Column(name = "costototal")
 	private double costoTotal;
-
+	
+	@ManyToOne
+	@JoinColumn(name = "idtransaccion")
+	@JsonIgnore
+	private TransaccionInventario maestro;
+	
+	@JsonIgnore
+	public TransaccionInventario getMaestro() {
+		return maestro;
+	}
+	
+	
 }

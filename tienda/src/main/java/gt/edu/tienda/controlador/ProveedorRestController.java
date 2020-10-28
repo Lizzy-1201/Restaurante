@@ -1,6 +1,7 @@
 package gt.edu.tienda.controlador;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -79,7 +80,12 @@ public class ProveedorRestController {
 	@GetMapping("/nombre/{proveedor_nombre}")
 	public ResponseEntity<Proveedor> getByNombre(@PathVariable String proveedor_nombre) {
 		
-		Proveedor proveedor = proveedorService.findByNombre(proveedor_nombre).get();
+		Proveedor proveedor;
+		try {
+			proveedor = proveedorService.findByNombre(proveedor_nombre).get();
+		} catch (NoSuchElementException e) {
+			proveedor = null;
+		}
 		
 		if(proveedor == null) {
 			return new ResponseEntity(new Mensaje("Proveedor no existe"), HttpStatus.NOT_FOUND);

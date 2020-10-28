@@ -2,6 +2,8 @@ package gt.edu.tienda.controlador;
 
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -24,17 +26,22 @@ import gt.edu.tienda.service.ITransaccionInventarioService;
 
 @RestController
 @RequestMapping("/transaccionInventario")
-public class TransaccionInventarioRestController {
-
+public class TransaccionInventarioController {
+	
 	@Autowired
 	private ITransaccionInventarioService transaccionService;
 	
 	@GetMapping("/")
 	public ResponseEntity<List<TransaccionInventario>> getAll(){
 		List<TransaccionInventario> list = transaccionService.getAll();
-		return new ResponseEntity<List<TransaccionInventario>>(list, HttpStatus.OK);
+		if(list.isEmpty()) {
+			return new ResponseEntity(new Mensaje("No existen datos"), HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<List<TransaccionInventario>>(list, HttpStatus.OK);
+		}
+		
 	}
-	
+
 	@PostMapping
 	public ResponseEntity<TransaccionInventario> save(
 			@RequestBody TransaccionInventario ti
@@ -57,7 +64,9 @@ public class TransaccionInventarioRestController {
 							if(StringUtils.isEmpty(ti.getFecha())) {
 								return new ResponseEntity(new Mensaje("Fecha es obligatorio"), HttpStatus.BAD_REQUEST);
 							} else {
+
 								return new ResponseEntity<TransaccionInventario>(transaccionService.save(ti), HttpStatus.OK);
+
 							}
 							
 						}
@@ -93,6 +102,12 @@ public class TransaccionInventarioRestController {
 							if(StringUtils.isEmpty(ti.getFecha())) {
 								return new ResponseEntity(new Mensaje("Fecha es obligatorio"), HttpStatus.BAD_REQUEST);
 							} else {
+								// Crea el maestro de la transacción
+//								TransaccionInventario master = transaccionService.save(ti);
+								// Verifica si lleva detalle
+//								if (master.getDetalles().isEmpty()) {
+//									
+//								}
 								return new ResponseEntity<TransaccionInventario>(transaccionService.save(ti), HttpStatus.OK);
 							}
 							
@@ -108,7 +123,7 @@ public class TransaccionInventarioRestController {
 	}
 	
 	@DeleteMapping("/{transaccion_id}")
-	public ResponseEntity delete(@PathVariable int transaccion_id) {
+	public ResponseEntity delete(@PathVariable long transaccion_id) {
 		
 		TransaccionInventario ti = transaccionService.get(transaccion_id);
 		
@@ -121,7 +136,7 @@ public class TransaccionInventarioRestController {
 	}
 	
 	@GetMapping("/{transaccion_id}")
-	public ResponseEntity<TransaccionInventario> getById(@PathVariable int transaccion_id) {
+	public ResponseEntity<TransaccionInventario> getById(@PathVariable long transaccion_id) {
 		
 		TransaccionInventario ti = transaccionService.get(transaccion_id);
 		
@@ -201,7 +216,12 @@ public class TransaccionInventarioRestController {
 	public ResponseEntity<TransaccionInventario> getByReferencia(
 			@PathVariable("referencia") String referencia){
 		
-		TransaccionInventario ti = transaccionService.getByReferencia(referencia).get();
+		TransaccionInventario ti;
+		try {
+			ti = transaccionService.getByReferencia(referencia).get();
+		} catch (NoSuchElementException e) {
+			ti = null;
+		}
 		
 		if(ti == null) {
 			return new ResponseEntity(new Mensaje("No existen registros"), HttpStatus.NOT_FOUND);
@@ -269,9 +289,14 @@ public class TransaccionInventarioRestController {
 	
 	@GetMapping("/porTransaccionOrigen/{transaccion_id}")
 	public ResponseEntity<TransaccionInventario> getByTransaccionOrigen(
-			@PathVariable("transaccion_id") int origen){
+			@PathVariable("transaccion_id") Long origen){
 		
-		TransaccionInventario ti = transaccionService.getByTransaccionOrigen(origen).get();
+		TransaccionInventario ti;
+		try {
+			ti = transaccionService.getByTransaccionOrigen(origen).get();
+		} catch (NoSuchElementException e) {
+			ti = null;
+		}
 		
 		if(ti == null) {
 			return new ResponseEntity(new Mensaje("No existen registros"), HttpStatus.NOT_FOUND);
@@ -279,5 +304,7 @@ public class TransaccionInventarioRestController {
 			return new ResponseEntity<TransaccionInventario>(ti, HttpStatus.OK);
 		}
 	}
+
 	
+
 }
