@@ -43,16 +43,6 @@ public class TransaccionInventarioImp extends GenericServiceImp<TransaccionInven
 		  newTransaccion.setTransaccionOrigen(ti.getTransaccionOrigen());
 
 		  if(ti.getId() == null){
-//			  newTransaccion.setAnio(ti.getAnio());
-//			  newTransaccion.setFecha(ti.getFecha());
-//			  newTransaccion.setIdEmpleado(ti.getIdEmpleado());
-//			  newTransaccion.setIdPeriodo(ti.getIdPeriodo());
-//			  newTransaccion.setIdProveedor(ti.getIdProveedor());
-//			  newTransaccion.setIdTienda(ti.getIdTienda());
-//			  newTransaccion.setIdTipo(ti.getIdTipo());
-//			  newTransaccion.setReferencia(ti.getReferencia());
-//			  newTransaccion.setTipoDocto(ti.getTipoDocto());
-//			  newTransaccion.setTransaccionOrigen(ti.getTransaccionOrigen());
 			  savedTransaccion = repositorio.save(newTransaccion);
 			  // Asigna el identificador al detalle
 			  for(TransaccionInventarioDetalle tid : ti.getDetalles()) {
@@ -69,7 +59,6 @@ public class TransaccionInventarioImp extends GenericServiceImp<TransaccionInven
 			  savedTransaccion = repositorio.save(newTransaccion);
 			  
 		  }
-		  //savedTransaccion.setDetalles(ti.getDetalles());
 		  return savedTransaccion;
 	  
 	  }
@@ -87,7 +76,6 @@ public class TransaccionInventarioImp extends GenericServiceImp<TransaccionInven
 					deletedTransaccion.getIdTienda(), 
 					tid.getIdProducto()
 					);
-//			System.out.println("Sí se pudo el producto: " + tid.getIdProducto());
 		}
 	}
 	
