@@ -9,9 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.sun.istack.Nullable;
@@ -26,8 +24,6 @@ import lombok.NoArgsConstructor;
 public class TransaccionInventario {
 	
 	@Id
-//	@SequenceGenerator(name = "transaccion_id", sequenceName = "transaccion_seq", allocationSize = 1)
-//	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transaccion_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idtransaccion")
 	private Long id;
@@ -66,15 +62,6 @@ public class TransaccionInventario {
 	@Nullable
 	private String referencia;
 	
-//	@OneToMany(
-//		mappedBy = "maestro",
-//		targetEntity = TransaccionInventarioDetalle.class,
-//		cascade = CascadeType.ALL
-//		orphanRemoval = true
-//	)
-//	@JoinColumn(referencedColumnName = "idtransaccion")
-//	@OneToMany
-//	@JoinColumn(name = "idtransaccion")
 	@OneToMany(mappedBy = "maestro", cascade = CascadeType.ALL)
 	private List<TransaccionInventarioDetalle> detalles;
 
