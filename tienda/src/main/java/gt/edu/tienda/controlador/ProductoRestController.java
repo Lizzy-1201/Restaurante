@@ -34,11 +34,19 @@ public class ProductoRestController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Producto> save(@RequestBody Producto producto) {
+	public ResponseEntity<Producto> save(@RequestBody Producto producto ) {
 		if(StringUtils.isEmpty(producto.getDescripcion())) {
-			return new ResponseEntity(new Mensaje("La descripcion del Estado es obligatorio"), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity(new Mensaje("La descripcion del producto es obligatorio"), HttpStatus.BAD_REQUEST);
+		} else {
+			if (StringUtils.isEmpty(producto.getParaventa())) {
+				return new ResponseEntity(new Mensaje("Debe indicar si el producto es para venta"), HttpStatus.BAD_REQUEST);			
+		} else {
+			if (StringUtils.isEmpty(producto.getEsproducido())) {
+				return new ResponseEntity(new Mensaje("Debe indicar si el producto es para produccion"), HttpStatus.BAD_REQUEST);			
 		} else {
 			return new ResponseEntity<Producto>(productoService.save(producto), HttpStatus.OK);
+		       }
+		   }
 		}
 	}
 	

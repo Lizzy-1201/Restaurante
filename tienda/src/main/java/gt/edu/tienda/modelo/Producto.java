@@ -28,4 +28,5 @@ public class Producto {
 	@Column(name = "esProducido")
 	private int esproducido;
 
+
 }
