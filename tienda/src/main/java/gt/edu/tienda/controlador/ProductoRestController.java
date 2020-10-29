@@ -32,6 +32,9 @@ public class ProductoRestController {
 	@GetMapping("/")
 	public ResponseEntity<List<Producto>> getAll(){
 		List<Producto> list = productoService.getAll();
+		if (list.isEmpty()) {
+			return new ResponseEntity(new Mensaje("No existen datos"), HttpStatus.NOT_FOUND);
+		}
 		return new ResponseEntity<List<Producto>>(list, HttpStatus.OK);
 	}
 	
@@ -75,7 +78,7 @@ public class ProductoRestController {
 	}
 	
 	@GetMapping("/{producto_id}")
-	public ResponseEntity<Producto> get(@PathVariable int producto_id) {
+	public ResponseEntity<Producto> getById(@PathVariable int producto_id) {
 		
 		Producto producto = productoService.get(producto_id);
 		
@@ -117,27 +120,21 @@ public class ProductoRestController {
 	}
 	
 	@GetMapping("/paraventa/{producto_paraventa}")
-	public ResponseEntity<Producto> getByParaventa(@PathVariable int paraventa) {
+	public ResponseEntity<List<Producto>> getByParaventa(@PathVariable int producto_paraventa) {
 		
-		Producto producto;
-		try {
-			producto = productoService.findByParaventa(paraventa).get();
-			
-		} catch (NoSuchElementException e) {
-			producto = null;
+		List<Producto> list = productoService.findByParaventa(producto_paraventa);
+		
+		if(list.isEmpty()) {
+			return new ResponseEntity(new Mensaje("No existen datos"), HttpStatus.NOT_FOUND);
 		}
 		
-		if(producto == null) {
-			return new ResponseEntity(new Mensaje("Producto no existe"), HttpStatus.NOT_FOUND);
-		}
-		
-		return new ResponseEntity<Producto>(producto, HttpStatus.OK);
+		return new ResponseEntity<List<Producto>>(list, HttpStatus.OK);
 	}
 
-	@GetMapping("/paraventa/like/{producto_paraventa}")
-	public ResponseEntity<List<Producto>> getByLikeParaventa(@PathVariable int paraventa) {
+	@GetMapping("/esProducido/{producto_producido}")
+	public ResponseEntity<List<Producto>> getByEsProducido(@PathVariable int producto_producido) {
 		
-		List<Producto> listproducto = productoService.findByLikeParaventa(paraventa);
+		List<Producto> listproducto = productoService.findByParaventa(producto_producido);
 		
 		if(listproducto == null) {
 			return new ResponseEntity(new Mensaje("Producto no existe"), HttpStatus.NOT_FOUND);
