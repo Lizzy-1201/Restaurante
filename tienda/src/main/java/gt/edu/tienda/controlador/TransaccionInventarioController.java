@@ -117,7 +117,7 @@ public class TransaccionInventarioController {
 	}
 	
 	@DeleteMapping("/{transaccion_id}")
-	public ResponseEntity delete(@PathVariable long transaccion_id) {
+	public ResponseEntity delete(@PathVariable Long transaccion_id) {
 		
 		TransaccionInventario ti = transaccionService.get(transaccion_id);
 		

@@ -21,7 +21,8 @@ public class TransaccionInventarioImp extends GenericServiceImp<TransaccionInven
 	@Autowired
 	private ITransaccionInventarioRepositorio repositorio;
 	
-	@Autowired ITransaccionInventarioDetalleRepositorio detalleRepositorio;
+	@Autowired 
+	ITransaccionInventarioDetalleRepositorio detalleRepositorio;
 	
 	
 	  @Override 
@@ -75,7 +76,24 @@ public class TransaccionInventarioImp extends GenericServiceImp<TransaccionInven
 		  return savedTransaccion;
 	  
 	  }
-	 	
+	 
+	@Override
+	public void delete(Long id) {
+		// Captura la transacción a eliminar
+		TransaccionInventario deletedTransaccion = new TransaccionInventario();
+		deletedTransaccion = repositorio.findById(id).get();
+		// Elimina la transacción actual
+		repositorio.deleteById(id);
+		// Reconstruye el inventario de los productos
+		for(TransaccionInventarioDetalle tid : deletedTransaccion.getDetalles()) {
+			detalleRepositorio.reconstruyeInventario(
+					deletedTransaccion.getIdTienda(), 
+					tid.getIdProducto()
+					);
+//			System.out.println("Sí se pudo el producto: " + tid.getIdProducto());
+		}
+	}
+	
 	@Override
 	public CrudRepository<TransaccionInventario, Long> getRepository() {
 		return repositorio;
