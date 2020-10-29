@@ -29,7 +29,12 @@ public class TiendaRestController {
 	@GetMapping("/")
 	public ResponseEntity<List<Tienda>> getAll(){
 		List<Tienda> list = tiendaService.getAll();
-		return new ResponseEntity<List<Tienda>>(list, HttpStatus.OK);
+		if (list.isEmpty()) {
+			return new ResponseEntity(new Mensaje("No existen datos"), HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<List<Tienda>>(list, HttpStatus.OK);
+		}
+		
 	}
 	
 	@PostMapping
@@ -85,7 +90,7 @@ public class TiendaRestController {
 		List<Tienda> list = tiendaService.findByLikeDireccion(tienda_direccion);
 		
 		if(list.isEmpty()) {
-			return new ResponseEntity(new Mensaje("Tienda no existe"), HttpStatus.NOT_FOUND);
+			return new ResponseEntity(new Mensaje("No existen datos"), HttpStatus.NOT_FOUND);
 		} else {
 			return new ResponseEntity<List<Tienda>>(list, HttpStatus.OK);
 		}

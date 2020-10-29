@@ -31,7 +31,12 @@ public class ProveedorRestController {
 	@GetMapping("/")
 	public ResponseEntity<List<Proveedor>> getAll(){
 		List<Proveedor> list = proveedorService.getAll();
-		return new ResponseEntity<List<Proveedor>>(list, HttpStatus.OK);
+		if (list.isEmpty()) {
+			return new ResponseEntity(new Mensaje("No existen datos"), HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<List<Proveedor>>(list, HttpStatus.OK);
+		}
+		
 	}
 	
 	@PostMapping
@@ -99,7 +104,7 @@ public class ProveedorRestController {
 		
 		List<Proveedor> listProveedor = proveedorService.findByLikeNombre(proveedor_nombre);
 		
-		if(listProveedor == null) {
+		if(listProveedor.isEmpty()) {
 			return new ResponseEntity(new Mensaje("Proveedor no existe"), HttpStatus.NOT_FOUND);
 		}
 		

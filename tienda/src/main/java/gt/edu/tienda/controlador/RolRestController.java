@@ -29,6 +29,9 @@ public class RolRestController {
 	@GetMapping("/")
 	public ResponseEntity<List<Rol>> getAll(){
 		List<Rol> list = rolService.getAll(); 
+		if (list.isEmpty()) {
+			return new ResponseEntity(new Mensaje("No existen datos"), HttpStatus.NOT_FOUND);
+		}
 		return new ResponseEntity<List<Rol>>(list, HttpStatus.OK);
 	}
 	

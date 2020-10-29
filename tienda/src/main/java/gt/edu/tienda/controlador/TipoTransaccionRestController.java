@@ -29,7 +29,12 @@ public class TipoTransaccionRestController {
 	@GetMapping("/")
 	public ResponseEntity<List<TipoTransaccion>> getAll(){
 		List<TipoTransaccion> list = tipTransaService.getAll();
-		return new ResponseEntity<List<TipoTransaccion>>(list, HttpStatus.OK);
+		if(list.isEmpty()) {
+			return new ResponseEntity(new Mensaje("No existen datos"), HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<List<TipoTransaccion>>(list, HttpStatus.OK);
+		}
+		
 	}
 	
 	@PostMapping

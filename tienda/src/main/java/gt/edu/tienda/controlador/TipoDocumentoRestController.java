@@ -29,7 +29,12 @@ public class TipoDocumentoRestController {
 	@GetMapping("/")
 	public ResponseEntity<List<TipoDocumento>> getAll(){
 		List<TipoDocumento> list = tipoDoctoService.getAll();
-		return new ResponseEntity<List<TipoDocumento>>(list, HttpStatus.OK);
+		if (list.isEmpty()) {
+			return new ResponseEntity(new Mensaje("No existen datos"), HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<List<TipoDocumento>>(list, HttpStatus.OK);
+		}
+		
 	}
 	
 	@PostMapping
