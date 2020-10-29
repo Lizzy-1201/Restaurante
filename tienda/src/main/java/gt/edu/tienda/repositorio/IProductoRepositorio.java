@@ -17,17 +17,9 @@ public interface IProductoRepositorio extends CrudRepository<Producto, Integer> 
 			nativeQuery = true)
 	List<Producto> findByLikeDescripcion(@Param("descripcion")String descripcion);
 	
-	Optional<Producto> findByParaventa(String paraventa);
-
-	@Query(value = "SELECT * FROM producto pv WHERE UPPER(pv.paraventa) LIKE '%'||UPPER(:paraventa)||'%'", 
-			nativeQuery = true)
-	List<Producto> findByLikeParaventa(@Param("paraventa")int paraventa);
+	List<Producto> findByParaventa(int paraventa);
 	
-	Optional<Producto> findByEsproducido(String esproducido);
-	
-	@Query(value = "SELECT * FROM producto ep WHERE UPPER(ep.esproducido) LIKE '%'||UPPER(:esproducido)||'%'", 
-			nativeQuery = true)
-	List<Producto> findByLikeEsproducido(@Param("esproducido")int esproducido);
+	List<Producto> findByEsproducido(int esproducido);
 	
 	
 }
