@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.sun.istack.Nullable;
+
 @Data
 @Entity
 @Table(name="producto")
@@ -16,16 +18,18 @@ public class Producto {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "idmedida")
+	@Column(name = "idproducto")
 	private int id;
 	
 	@Column(name = "descripcion", length = 100)
 	private String descripcion;
 	
-	@Column(name = "paraVenta")
+	@Column(name = "paraventa")
+	@Nullable
 	private int paraventa;
 	
-	@Column(name = "esProducido")
+	@Column(name = "esproducido")
+	@Nullable
 	private int esproducido;
 
 

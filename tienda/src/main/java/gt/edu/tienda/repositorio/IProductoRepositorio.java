@@ -17,17 +17,17 @@ public interface IProductoRepositorio extends CrudRepository<Producto, Integer> 
 			nativeQuery = true)
 	List<Producto> findByLikeDescripcion(@Param("descripcion")String descripcion);
 	
-	Optional<Producto> findByParaVenta(String paraventa);
+	Optional<Producto> findByParaventa(String paraventa);
 
 	@Query(value = "SELECT * FROM producto pv WHERE UPPER(pv.paraventa) LIKE '%'||UPPER(:paraventa)||'%'", 
 			nativeQuery = true)
-	List<Producto> findByLikeParaVenta(@Param("paraventa")String paraventa);
+	List<Producto> findByLikeParaventa(@Param("paraventa")int paraventa);
 	
-	Optional<Producto> findByEsProducido(String esproducido);
+	Optional<Producto> findByEsproducido(String esproducido);
 	
 	@Query(value = "SELECT * FROM producto ep WHERE UPPER(ep.esproducido) LIKE '%'||UPPER(:esproducido)||'%'", 
 			nativeQuery = true)
-	List<Producto> findByLikeEsProducido(@Param("esproducido")String esproducido);
+	List<Producto> findByLikeEsproducido(@Param("esproducido")int esproducido);
 	
 	
 }

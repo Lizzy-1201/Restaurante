@@ -36,26 +36,26 @@ public class ProductoServiceImp extends GenericServiceImp<Producto, Integer> imp
     return repositorio.findByLikeDescripcion(descripcion); 
     }
 
-    @Override
-    public Optional<Producto> findByParaVenta(String paraventa) {
+	@Override
+    public Optional<Producto> findByParaventa(int paraventa) {
 	    // TODO Auto-generated method stub
 	return null;
     }
 
     @Override
-    public List<Producto> findByLikefindByParaVenta(String paraventa) {
+    public List<Producto> findByLikeParaventa(int paraventa) {
 	    // TODO Auto-generated method stub
 	return null;
     }
 
     @Override
-    public Optional<Producto> findByEsProducido(String descripcion) {
+    public Optional<Producto> findByEsproducido(int esproducido) {
 	    // TODO Auto-generated method stub
 	return null;
     }
 
     @Override
-    public List<Producto> findByLikeEsProducido(String esproducido) {
+    public List<Producto> findByLikeEsproducido(int esproducido) {
 	   // TODO Auto-generated method stub
 	return null;
     }
