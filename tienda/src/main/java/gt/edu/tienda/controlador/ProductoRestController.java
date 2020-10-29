@@ -134,7 +134,7 @@ public class ProductoRestController {
 	@GetMapping("/esProducido/{producto_producido}")
 	public ResponseEntity<List<Producto>> getByEsProducido(@PathVariable int producto_producido) {
 		
-		List<Producto> listproducto = productoService.findByParaventa(producto_producido);
+		List<Producto> listproducto = productoService.findByEsproducido(producto_producido);
 		
 		if(listproducto == null) {
 			return new ResponseEntity(new Mensaje("Producto no existe"), HttpStatus.NOT_FOUND);

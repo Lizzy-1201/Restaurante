@@ -17,11 +17,7 @@ public interface IProductoRepositorio extends CrudRepository<Producto, Integer> 
 			nativeQuery = true)
 	List<Producto> findByLikeDescripcion(@Param("descripcion")String descripcion);
 	
-//	Optional<Producto> findByParaventa(String paraventa);
-
 	List<Producto> findByParaventa(int paraventa);
-	
-//	Optional<Producto> findByEsproducido(String esproducido);
 	
 	List<Producto> findByEsproducido(int esproducido);
 	

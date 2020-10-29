@@ -17,12 +17,8 @@ public interface IProductoService extends GenericServiceAPI<Producto, Integer>{
 	@Query(value = "SELECT * FROM producto p WHERE UPPER(p.descripcion) LIKE '%'||UPPER(:descripcion)||'%'", 
 			nativeQuery = true)
 	List<Producto> findByLikeDescripcion(@Param("descripcion")String descripcion);
-	
-//	Optional<Producto> findByParaventa(int paraventa);
 
 	List<Producto> findByParaventa(int paraventa);
-
-//	Optional<Producto> findByEsproducido(int esproducido);
 
 	List<Producto> findByEsproducido(int esproducido);
 
