@@ -63,11 +63,8 @@ public class TransaccionInventarioImp extends GenericServiceImp<TransaccionInven
 		  } else {
 			  newTransaccion.setId(ti.getId());
 			  newTransaccion.setDetalles(ti.getDetalles());
-//			  savedTransaccion = repositorio.save(newTransaccion);
 			  for(TransaccionInventarioDetalle tid : newTransaccion.getDetalles()) {
 				  tid.setMaestro(ti);
-				  // Añade el detalle a la lista
-				  //detalleRepositorio.save(tid);
 			  }	
 			  savedTransaccion = repositorio.save(newTransaccion);
 			  
