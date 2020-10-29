@@ -21,13 +21,16 @@ public class TransaccionInventarioImp extends GenericServiceImp<TransaccionInven
 	@Autowired
 	private ITransaccionInventarioRepositorio repositorio;
 	
-	@Autowired ITransaccionInventarioDetalleRepositorio detalleRepositorio;
+	@Autowired 
+	ITransaccionInventarioDetalleRepositorio detalleRepositorio;
 	
 	
 	  @Override 
 	  public TransaccionInventario save(TransaccionInventario ti) { 
 		  //Crea una nueva transacción 
 		  TransaccionInventario newTransaccion = new TransaccionInventario(); 
+		  TransaccionInventario savedTransaccion = new TransaccionInventario();
+		  // Si es una actualización no insertará nada
 		  newTransaccion.setAnio(ti.getAnio());
 		  newTransaccion.setFecha(ti.getFecha());
 		  newTransaccion.setIdEmpleado(ti.getIdEmpleado());
@@ -37,20 +40,60 @@ public class TransaccionInventarioImp extends GenericServiceImp<TransaccionInven
 		  newTransaccion.setIdTipo(ti.getIdTipo());
 		  newTransaccion.setReferencia(ti.getReferencia());
 		  newTransaccion.setTipoDocto(ti.getTipoDocto());
-		  newTransaccion.setTransaccionOrigen(ti.getTransaccionOrigen()); 
-		  // Guarda elegistro 
-		  TransaccionInventario savedTransaccion = repositorio.save(newTransaccion);
-		  // Asigna el identificador al detalle
-		  for(TransaccionInventarioDetalle tid : ti.getDetalles()) {
-			  tid.setMaestro(savedTransaccion);
-			  // Añade el detalle a la lista
-			  detalleRepositorio.save(tid);
+		  newTransaccion.setTransaccionOrigen(ti.getTransaccionOrigen());
+
+		  if(ti.getId() == null){
+//			  newTransaccion.setAnio(ti.getAnio());
+//			  newTransaccion.setFecha(ti.getFecha());
+//			  newTransaccion.setIdEmpleado(ti.getIdEmpleado());
+//			  newTransaccion.setIdPeriodo(ti.getIdPeriodo());
+//			  newTransaccion.setIdProveedor(ti.getIdProveedor());
+//			  newTransaccion.setIdTienda(ti.getIdTienda());
+//			  newTransaccion.setIdTipo(ti.getIdTipo());
+//			  newTransaccion.setReferencia(ti.getReferencia());
+//			  newTransaccion.setTipoDocto(ti.getTipoDocto());
+//			  newTransaccion.setTransaccionOrigen(ti.getTransaccionOrigen());
+			  savedTransaccion = repositorio.save(newTransaccion);
+			  // Asigna el identificador al detalle
+			  for(TransaccionInventarioDetalle tid : ti.getDetalles()) {
+				  tid.setMaestro(savedTransaccion);
+				  // Añade el detalle a la lista
+				  detalleRepositorio.save(tid);
+			  }			  
+		  } else {
+			  newTransaccion.setId(ti.getId());
+			  newTransaccion.setDetalles(ti.getDetalles());
+//			  savedTransaccion = repositorio.save(newTransaccion);
+			  for(TransaccionInventarioDetalle tid : newTransaccion.getDetalles()) {
+				  tid.setMaestro(ti);
+				  // Añade el detalle a la lista
+				  //detalleRepositorio.save(tid);
+			  }	
+			  savedTransaccion = repositorio.save(newTransaccion);
+			  
 		  }
 		  //savedTransaccion.setDetalles(ti.getDetalles());
 		  return savedTransaccion;
 	  
 	  }
-	 	
+	 
+	@Override
+	public void delete(Long id) {
+		// Captura la transacción a eliminar
+		TransaccionInventario deletedTransaccion = new TransaccionInventario();
+		deletedTransaccion = repositorio.findById(id).get();
+		// Elimina la transacción actual
+		repositorio.deleteById(id);
+		// Reconstruye el inventario de los productos
+		for(TransaccionInventarioDetalle tid : deletedTransaccion.getDetalles()) {
+			detalleRepositorio.reconstruyeInventario(
+					deletedTransaccion.getIdTienda(), 
+					tid.getIdProducto()
+					);
+//			System.out.println("Sí se pudo el producto: " + tid.getIdProducto());
+		}
+	}
+	
 	@Override
 	public CrudRepository<TransaccionInventario, Long> getRepository() {
 		return repositorio;

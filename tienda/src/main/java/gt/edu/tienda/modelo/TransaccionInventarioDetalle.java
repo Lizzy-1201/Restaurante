@@ -2,7 +2,6 @@ package gt.edu.tienda.modelo;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,6 +18,7 @@ import lombok.Data;
 @Table(name = "transaccion_inventario_det")
 public class TransaccionInventarioDetalle {
 
+	public static final String NamedQuery_ReconstruyeInventario = "reconstruyeInventario";
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idtransacciondet")

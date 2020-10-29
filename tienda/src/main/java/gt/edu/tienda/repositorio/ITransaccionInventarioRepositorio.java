@@ -18,10 +18,10 @@ public interface ITransaccionInventarioRepositorio extends CrudRepository<Transa
 	List<TransaccionInventario> getByFechaEntre(
 			@Param("fecha1") Date fecha1, @Param("fecha2") Date fecha2);
 	
-	@Query(value = "SELECT * FROM transaccion_inventario ti WHERE ti.fecha >= :fecha", nativeQuery = true)
+	@Query(value = "SELECT * FROM transaccion_inventario ti WHERE ti.fecha <= :fecha", nativeQuery = true)
 	List<TransaccionInventario> getByFechaMenorIgualA(@Param("fecha") Date fecha);
 
-	@Query(value = "SELECT * FROM transaccion_inventario ti WHERE ti.fecha <= :fecha", nativeQuery = true)
+	@Query(value = "SELECT * FROM transaccion_inventario ti WHERE ti.fecha >= :fecha", nativeQuery = true)
 	List<TransaccionInventario> getByFechaMayorIgualA(@Param("fecha") Date fecha);
 	
 	Optional<TransaccionInventario> getByReferencia(String referencia);
