@@ -1,6 +1,7 @@
 package gt.edu.tienda.controlador;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import gt.edu.tienda.service.IProductoService;
 import gt.edu.tienda.implementacion.Mensaje;
 import gt.edu.tienda.modelo.Producto;
+
 
 @RestController
 @RequestMapping("/producto")
@@ -65,10 +67,10 @@ public class ProductoRestController {
 		Producto producto = productoService.get(producto_id);
 		
 		if(producto == null) {
-			return new ResponseEntity(new Mensaje("El medida no existe"), HttpStatus.NOT_FOUND);
+			return new ResponseEntity(new Mensaje("El Producto no existe"), HttpStatus.NOT_FOUND);
 		} else {
 			productoService.delete(producto_id);
-			return new ResponseEntity(new Mensaje("Medida eliminado"), HttpStatus.OK);
+			return new ResponseEntity(new Mensaje("Producto eliminado"), HttpStatus.OK);
 		}
 	}
 	
@@ -78,7 +80,7 @@ public class ProductoRestController {
 		Producto producto = productoService.get(producto_id);
 		
 		if(producto == null) {
-			return new ResponseEntity(new Mensaje("Estado no existe"), HttpStatus.NOT_FOUND);
+			return new ResponseEntity(new Mensaje("Producto no existe"), HttpStatus.NOT_FOUND);
 		}
 		
 		return new ResponseEntity<Producto>(producto, HttpStatus.OK);
@@ -87,10 +89,16 @@ public class ProductoRestController {
 	@GetMapping("/descripcion/{producto_descripcion}")
 	public ResponseEntity<Producto> getByDescripcion(@PathVariable String producto_descripcion) {
 		
-		Producto producto = productoService.findByDescripcion(producto_descripcion).get();
+		Producto producto;
+		try {
+			producto = productoService.findByDescripcion(producto_descripcion).get();
+			
+		} catch (NoSuchElementException e) {
+			producto = null;
+		}
 		
 		if(producto == null) {
-			return new ResponseEntity(new Mensaje("Estado no existe"), HttpStatus.NOT_FOUND);
+			return new ResponseEntity(new Mensaje("Producto no existe"), HttpStatus.NOT_FOUND);
 		}
 		
 		return new ResponseEntity<Producto>(producto, HttpStatus.OK);
@@ -102,11 +110,42 @@ public class ProductoRestController {
 		List<Producto> listproducto = productoService.findByLikeDescripcion(producto_descripcion);
 		
 		if(listproducto == null) {
-			return new ResponseEntity(new Mensaje("Estado no existe"), HttpStatus.NOT_FOUND);
+			return new ResponseEntity(new Mensaje("Producto no existe"), HttpStatus.NOT_FOUND);
 		}
 		
 		return new ResponseEntity<List<Producto>>(listproducto, HttpStatus.OK);
 	}
+	
+	@GetMapping("/paraventa/{producto_paraventa}")
+	public ResponseEntity<Producto> getByParaventa(@PathVariable int paraventa) {
+		
+		Producto producto;
+		try {
+			producto = productoService.findByParaventa(paraventa).get();
+			
+		} catch (NoSuchElementException e) {
+			producto = null;
+		}
+		
+		if(producto == null) {
+			return new ResponseEntity(new Mensaje("Producto no existe"), HttpStatus.NOT_FOUND);
+		}
+		
+		return new ResponseEntity<Producto>(producto, HttpStatus.OK);
+	}
+
+	@GetMapping("/paraventa/like/{producto_paraventa}")
+	public ResponseEntity<List<Producto>> getByLikeParaventa(@PathVariable int paraventa) {
+		
+		List<Producto> listproducto = productoService.findByLikeParaventa(paraventa);
+		
+		if(listproducto == null) {
+			return new ResponseEntity(new Mensaje("Producto no existe"), HttpStatus.NOT_FOUND);
+		}
+		
+		return new ResponseEntity<List<Producto>>(listproducto, HttpStatus.OK);
+	}
+
 	
 	
 	

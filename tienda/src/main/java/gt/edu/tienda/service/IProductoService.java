@@ -18,17 +18,17 @@ public interface IProductoService extends GenericServiceAPI<Producto, Integer>{
 			nativeQuery = true)
 	List<Producto> findByLikeDescripcion(@Param("descripcion")String descripcion);
 	
-	Optional<Producto> findByParaVenta(String paraventa);
+	Optional<Producto> findByParaventa(int paraventa);
 
 	@Query(value = "SELECT * FROM producto pv WHERE UPPER(pv.paraventa) LIKE '%'||UPPER(:paraventa)||'%'", 
 			nativeQuery = true)
-	List<Producto> findByLikefindByParaVenta(@Param("paraventa")String paraventa);
+	List<Producto> findByLikeParaventa(@Param("paraventa")int paraventa);
 
-	Optional<Producto> findByEsProducido(String descripcion);
+	Optional<Producto> findByEsproducido(int esproducido);
 
 	@Query(value = "SELECT * FROM producto ep WHERE UPPER(ep.esproducido) LIKE '%'||UPPER(:esproducido)||'%'", 
 			nativeQuery = true)
-	List<Producto> findByLikeEsProducido(@Param("esproducido")String esproducido);
+	List<Producto> findByLikeEsproducido(@Param("esproducido")int esproducido);
 
 
 	
