@@ -18,7 +18,6 @@ import lombok.Data;
 @Table(name = "transaccion_inventario_det")
 public class TransaccionInventarioDetalle {
 
-	public static final String NamedQuery_ReconstruyeInventario = "reconstruyeInventario";
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idtransacciondet")
